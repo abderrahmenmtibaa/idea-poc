@@ -1,51 +1,51 @@
-# CLAUDE.md — Configuration du projet idea-poc
+# CLAUDE.md — idea-poc
 
-Ce fichier configure le comportement de Claude Code pour ce projet.
+This file configures Claude Code behavior for this project.
 
-## Commandes disponibles
+## Available Commands
 
-| Commande | Description |
+| Command | Description |
 |---|---|
-| `/analyze` | Analyse approfondie du code (architecture, qualité, sécurité) |
-| `/review-pr` | Revue complète d'une Pull Request |
-| `/fix` | Correction automatique d'un bug |
-| `/test` | Génération et exécution de tests |
-| `/simplify` | Simplification du code sans changement de comportement |
-| `/deploy` | Déploiement vers un environnement cible |
+| `/analyze` | Deep code analysis (architecture, quality, security) |
+| `/review-pr` | Full Pull Request review |
+| `/fix` | Automatic bug fix |
+| `/test` | Test generation and execution |
+| `/simplify` | Simplify code without changing behavior |
+| `/deploy` | Deploy to a target environment |
 
-## Agents disponibles
+## Available Agents
 
 | Agent | Description |
 |---|---|
-| `code-reviewer` | Revue de code — qualité, sécurité, maintenabilité |
-| `debugger` | Débogage méthodique — cause racine et correction minimale |
-| `architect` | Conception technique — architecture et plan d'implémentation |
-| `test-writer` | Écriture de tests — couverture complète et pertinente |
+| `code-reviewer` | Code review — quality, security, maintainability |
+| `debugger` | Methodical debugging — root cause and minimal fix |
+| `architect` | Technical design — architecture and implementation plan |
+| `test-writer` | Test writing — full and meaningful coverage |
 
-## Principes de développement
+## Development Principles
 
-- **Minimalisme** — Ne modifie que ce qui est demandé
-- **Tests** — Tout nouveau code doit être testé
-- **Sécurité** — Aucun secret dans le code, valider les entrées
-- **Lisibilité** — Le code est lu plus souvent qu'il n'est écrit
+- **Minimalism** — Only change what is asked
+- **Tests** — All new code must be tested
+- **Security** — No secrets in code, validate user inputs
+- **Readability** — Code is read more often than it is written
 
-## Compatibilité
+## Compatibility
 
-- **Claude Code** — Commandes dans `.claude/commands/`, agents dans `.claude/agents/`
-- **GitHub Copilot** — Instructions dans `.github/copilot-instructions.md`
+- **Claude Code** — Commands in `.claude/commands/`, agents in `.claude/agents/`
+- **GitHub Copilot** — Instructions in `.github/copilot-instructions.md`
 
-## Structure du projet
+## Project Structure
 
 ```
 .claude/
-├── commands/          # Commandes slash personnalisées
+├── commands/          # Custom slash commands
 │   ├── analyze.md
 │   ├── review-pr.md
 │   ├── fix.md
 │   ├── test.md
 │   ├── simplify.md
 │   └── deploy.md
-└── agents/            # Agents spécialisés
+└── agents/            # Specialized agents
     ├── code-reviewer.md
     ├── debugger.md
     ├── architect.md

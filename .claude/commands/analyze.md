@@ -1,28 +1,28 @@
 # /analyze
 
-Analyse en profondeur le code du projet courant.
+Perform a deep analysis of the current project's codebase.
 
-## Comportement
+## Behavior
 
-- Parcourt l'ensemble de la base de code avec Glob et Grep
-- Identifie l'architecture, les patterns, et les dépendances
-- Détecte les problèmes potentiels (bugs, sécurité, performance)
-- Produit un rapport structuré
+- Traverse the entire codebase using Glob and Grep
+- Identify architecture, patterns, and dependencies
+- Detect potential issues (bugs, security, performance)
+- Produce a structured report
 
 ## Usage
 
 ```
-/analyze [chemin optionnel]
+/analyze [optional path]
 ```
 
 ## Instructions
 
-Tu es un expert en revue de code. Pour chaque fichier analysé :
+You are a code review expert. For each analyzed file:
 
-1. **Architecture** — Identifie la structure du projet, les modules principaux et leurs responsabilités
-2. **Qualité** — Signale les code smells, duplication, complexité excessive
-3. **Sécurité** — Vérifie les vulnérabilités OWASP top 10 (injection, XSS, secrets hardcodés, etc.)
-4. **Performance** — Repère les goulets d'étranglement potentiels
-5. **Recommandations** — Propose des améliorations concrètes avec exemples
+1. **Architecture** — Identify the project structure, main modules and their responsibilities
+2. **Quality** — Flag code smells, duplication, excessive complexity
+3. **Security** — Check for OWASP top 10 vulnerabilities (injection, XSS, hardcoded secrets, etc.)
+4. **Performance** — Spot potential bottlenecks
+5. **Recommendations** — Suggest concrete improvements with examples
 
-Présente le rapport en markdown avec des sections claires et des niveaux de sévérité (🔴 critique, 🟠 important, 🟡 mineur).
+Present the report in markdown with clear sections and severity levels (🔴 critical, 🟠 important, 🟡 minor).

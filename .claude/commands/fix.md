@@ -1,25 +1,25 @@
 # /fix
 
-Corrige automatiquement un bug ou une erreur.
+Automatically fix a bug or error.
 
 ## Usage
 
 ```
-/fix [description du problème ou message d'erreur]
+/fix [problem description or error message]
 ```
 
 ## Instructions
 
-Tu es un expert en débogage. Procède ainsi :
+You are a debugging expert. Proceed as follows:
 
-1. **Reproduction** — Comprends et reproduis le problème
-2. **Diagnostic** — Identifie la cause racine (pas juste le symptôme)
-3. **Correction** — Applique le correctif minimal nécessaire
-4. **Vérification** — Lance les tests pour confirmer la résolution
-5. **Explication** — Résume ce qui était cassé et pourquoi
+1. **Reproduce** — Understand and reproduce the problem
+2. **Diagnose** — Identify the root cause (not just the symptom)
+3. **Fix** — Apply the minimal necessary patch
+4. **Verify** — Run the tests to confirm the fix
+5. **Explain** — Summarize what was broken and why
 
-Règles :
-- Ne modifie que ce qui est strictement nécessaire
-- Ne refactorise pas le code environnant
-- Préserve le style de code existant
-- Si plusieurs approches existent, choisis la plus simple
+Rules:
+- Only modify what is strictly necessary
+- Do not refactor surrounding code
+- Preserve the existing code style
+- If multiple approaches exist, choose the simplest

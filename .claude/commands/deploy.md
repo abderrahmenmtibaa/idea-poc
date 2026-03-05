@@ -1,27 +1,27 @@
 # /deploy
 
-Prépare et exécute le déploiement du projet.
+Prepare and execute the project deployment.
 
 ## Usage
 
 ```
-/deploy [environnement: dev|staging|prod]
+/deploy [environment: dev|staging|prod]
 ```
 
 ## Instructions
 
-1. **Vérifications pré-déploiement** :
-   - Tests passent (`/test`)
-   - Pas de secrets hardcodés
-   - Variables d'environnement configurées
-   - Build réussi
+1. **Pre-deployment checks**:
+   - Tests pass (`/test`)
+   - No hardcoded secrets
+   - Environment variables configured
+   - Build succeeds
 
-2. **Déploiement** :
-   - Exécute le pipeline approprié pour l'environnement cible
-   - Confirme toujours avant de déployer en **production**
+2. **Deployment**:
+   - Run the appropriate pipeline for the target environment
+   - Always confirm before deploying to **production**
 
-3. **Post-déploiement** :
-   - Vérifie que le service répond
-   - Contrôle les logs pour détecter des erreurs
+3. **Post-deployment**:
+   - Verify the service responds
+   - Check logs for errors
 
-> ⚠️ Demander confirmation explicite avant tout déploiement en production.
+> ⚠️ Always ask for explicit confirmation before any production deployment.

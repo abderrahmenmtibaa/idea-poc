@@ -1,46 +1,46 @@
-# GitHub Copilot — Instructions du projet
+# GitHub Copilot — Project Instructions
 
-Ce fichier configure GitHub Copilot Chat pour ce projet.
-Il est le miroir des commandes et agents définis dans `.claude/`.
-
----
-
-## Commandes disponibles (à utiliser dans le chat)
-
-### Analyser le code
-> "Analyse ce fichier / ce projet : identifie l'architecture, les problèmes de qualité, de sécurité et de performance. Classe par sévérité (🔴 critique, 🟠 important, 🟡 mineur) avec le fichier et le numéro de ligne."
-
-### Simplifier le code
-> "Simplifie ce code sans changer son comportement : réduis la complexité, élimine la duplication, clarifie l'intention, supprime le code mort. Montre un diff commenté."
-
-### Corriger un bug
-> "Corrige ce bug : identifie la cause racine, applique le correctif minimal, explique pourquoi le bug existait. Ne refactorise pas le code environnant."
-
-### Écrire des tests
-> "Écris des tests pour ce code : couvre le happy path, les edge cases et les cas d'erreur. Utilise le framework déjà présent. Noms de tests au format `should_[comportement]_when_[condition]`."
-
-### Revoir une PR
-> "Fais la revue de cette PR : résumé des changements, problèmes identifiés par sévérité, impact sur la rétrocompatibilité, verdict (approve / request changes)."
-
-### Concevoir une architecture
-> "Conçois une solution pour [besoin] : analyse l'existant, propose une architecture simple et testable, liste les trade-offs, donne un plan d'implémentation étape par étape."
+This file configures GitHub Copilot Chat for this project.
+It mirrors the commands and agents defined in `.claude/`.
 
 ---
 
-## Principes de développement
+## Available prompts (use in chat)
 
-- **Minimalisme** — Ne modifie que ce qui est demandé
-- **Tests** — Tout nouveau code doit être testé
-- **Sécurité** — Aucun secret dans le code, valider les entrées utilisateur
-- **Lisibilité** — Le code est lu plus souvent qu'il n'est écrit
-- **YAGNI** — N'implémente pas ce dont tu n'as pas besoin maintenant
-- **KISS** — Préfère la solution simple à l'élégante complexe
+### Analyze code
+> "Analyze this file / project: identify the architecture, quality issues, security vulnerabilities, and performance bottlenecks. Rank by severity (🔴 critical, 🟠 important, 🟡 minor) with file name and line number."
+
+### Simplify code
+> "Simplify this code without changing its behavior: reduce complexity, eliminate duplication, clarify intent, remove dead code. Show an annotated diff."
+
+### Fix a bug
+> "Fix this bug: identify the root cause, apply the minimal patch, explain why the bug existed. Do not refactor surrounding code."
+
+### Write tests
+> "Write tests for this code: cover the happy path, edge cases, and error cases. Use the existing framework. Name tests as `should_[behavior]_when_[condition]`."
+
+### Review a PR
+> "Review this PR: summarize the changes, list issues by severity, assess backward compatibility impact, give a verdict (approve / request changes)."
+
+### Design an architecture
+> "Design a solution for [need]: analyze the existing code, propose a simple and testable architecture, list trade-offs, provide a step-by-step implementation plan."
 
 ---
 
-## Réponses attendues
+## Development principles
 
-- Toujours citer le fichier et le numéro de ligne
-- Proposer du code corrigé, pas juste des conseils vagues
-- Expliquer le **pourquoi**, pas seulement le **quoi**
-- Respecter le style de code existant dans le projet
+- **Minimalism** — Only change what is asked
+- **Tests** — All new code must be tested
+- **Security** — No secrets in code, validate user inputs
+- **Readability** — Code is read more often than it is written
+- **YAGNI** — Don't implement what you don't need right now
+- **KISS** — Prefer the simple solution over the elegant complex one
+
+---
+
+## Expected responses
+
+- Always cite the file and line number
+- Provide corrected code, not just vague advice
+- Explain the **why**, not just the **what**
+- Respect the existing code style of the project

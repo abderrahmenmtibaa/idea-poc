@@ -1,22 +1,22 @@
 # /test
 
-Génère ou exécute les tests pour le code spécifié.
+Generate or run tests for the specified code.
 
 ## Usage
 
 ```
-/test [fichier ou fonction cible]
+/test [target file or function]
 ```
 
 ## Instructions
 
-1. **Analyse** — Lis le code cible pour comprendre son comportement attendu
-2. **Génération** — Crée des tests couvrant :
-   - Cas nominaux (happy path)
-   - Cas limites (valeurs nulles, vides, extrêmes)
-   - Cas d'erreur (exceptions, états invalides)
-3. **Exécution** — Lance les tests et vérifie qu'ils passent
-4. **Rapport** — Indique la couverture atteinte
+1. **Analyze** — Read the target code to understand its expected behavior
+2. **Generate** — Create tests covering:
+   - Happy path (normal operation)
+   - Edge cases (null values, empty, extremes)
+   - Error cases (exceptions, invalid states)
+3. **Run** — Execute the tests and verify they pass
+4. **Report** — Indicate the coverage achieved
 
-Utilise le framework de test déjà présent dans le projet (pytest, jest, vitest, etc.).
-Ne crée pas de nouveau framework si un existe déjà.
+Use the test framework already present in the project (pytest, jest, vitest, etc.).
+Do not introduce a new framework if one already exists.

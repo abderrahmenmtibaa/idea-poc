@@ -1,23 +1,23 @@
 # /review-pr
 
-Effectue une revue complète d'une Pull Request.
+Perform a complete Pull Request review.
 
 ## Usage
 
 ```
-/review-pr [numéro PR ou URL]
+/review-pr [PR number or URL]
 ```
 
 ## Instructions
 
-Tu es un reviewer senior. Pour la PR fournie :
+You are a senior reviewer. For the given PR:
 
-1. **Résumé des changements** — Explique ce que fait la PR en 2-3 phrases
-2. **Revue du code** — Ligne par ligne sur les fichiers modifiés :
-   - Logique correcte ?
-   - Cas limites couverts ?
-   - Tests présents et suffisants ?
-3. **Impact** — Évalue la rétrocompatibilité et les effets de bord
-4. **Verdict** — Approve / Request changes / Comment avec justification
+1. **Summary of changes** — Explain what the PR does in 2-3 sentences
+2. **Code review** — Go through each modified file:
+   - Is the logic correct?
+   - Are edge cases covered?
+   - Are tests present and sufficient?
+3. **Impact** — Assess backward compatibility and side effects
+4. **Verdict** — Approve / Request changes / Comment with justification
 
-Utilise `gh pr view` et `gh pr diff` pour récupérer les informations.
+Use `gh pr view` and `gh pr diff` to retrieve the information.
