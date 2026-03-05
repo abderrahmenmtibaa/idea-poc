@@ -10,6 +10,7 @@ Ce fichier configure le comportement de Claude Code pour ce projet.
 | `/review-pr` | Revue complète d'une Pull Request |
 | `/fix` | Correction automatique d'un bug |
 | `/test` | Génération et exécution de tests |
+| `/simplify` | Simplification du code sans changement de comportement |
 | `/deploy` | Déploiement vers un environnement cible |
 
 ## Agents disponibles
@@ -28,6 +29,11 @@ Ce fichier configure le comportement de Claude Code pour ce projet.
 - **Sécurité** — Aucun secret dans le code, valider les entrées
 - **Lisibilité** — Le code est lu plus souvent qu'il n'est écrit
 
+## Compatibilité
+
+- **Claude Code** — Commandes dans `.claude/commands/`, agents dans `.claude/agents/`
+- **GitHub Copilot** — Instructions dans `.github/copilot-instructions.md`
+
 ## Structure du projet
 
 ```
@@ -37,6 +43,7 @@ Ce fichier configure le comportement de Claude Code pour ce projet.
 │   ├── review-pr.md
 │   ├── fix.md
 │   ├── test.md
+│   ├── simplify.md
 │   └── deploy.md
 └── agents/            # Agents spécialisés
     ├── code-reviewer.md
