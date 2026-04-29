@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taquin</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a2e;
+      font-family: 'Segoe UI', sans-serif;
+      color: #eee;
+      gap: 24px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #e0c97f;
+      text-shadow: 0 0 20px #e0c97f66;
+    }
+
+    .controls {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .info {
+      display: flex;
+      gap: 32px;
+      font-size: 1.1rem;
+    }
+
+    .info span { color: #e0c97f; font-weight: bold; }
+
+    select, button {
+      padding: 8px 20px;
+      border-radius: 8px;
+      border: 2px solid #e0c97f44;
+      background: #16213e;
+      color: #eee;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    select:hover, button:hover {
+      border-color: #e0c97f;
+      background: #0f3460;
+    }
+
+    button {
+      background: #e0c97f22;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    /* Board */
+    #board {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px #000a, 0 0 0 4px #e0c97f44;
+      background: #0a0a1a;
+    }
+
+    .tile {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: top 0.15s ease, left 0.15s ease, transform 0.08s ease, box-shadow 0.15s;
+      background: linear-gradient(135deg, #0f3460, #16213e);
+      border: 2px solid #e0c97f55;
+      color: #e0c97f;
+      text-shadow: 0 1px 4px #0008;
+      box-shadow: inset 0 2px 4px #ffffff18, 0 4px 12px #0006;
+    }
+
+    .tile:hover {
+      border-color: #e0c97f;
+      transform: scale(0.96);
+      box-shadow: inset 0 2px 4px #ffffff18, 0 4px 20px #e0c97f44;
+    }
+
+    .tile:active { transform: scale(0.92); }
+
+    .tile.empty {
+      background: transparent;
+      border: 2px dashed #ffffff18;
+      box-shadow: none;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .tile.empty:hover { transform: none; }
+
+    /* Win overlay */
+    #win-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000c;
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    #win-overlay.show { display: flex; }
+
+    #win-overlay h2 {
+      font-size: 3rem;
+      color: #e0c97f;
+      text-shadow: 0 0 30px #e0c97f;
+      animation: pulse 1s ease-in-out infinite alternate;
+    }
+
+    #win-overlay p { font-size: 1.3rem; color: #ccc; }
+
+    #win-overlay button {
+      font-size: 1.1rem;
+      padding: 12px 32px;
+      background: #e0c97f;
+      color: #1a1a2e;
+      border: none;
+      border-radius: 8px;
+    }
+
+    #win-overlay button:hover { background: #f0d98f; }
+
+    @keyframes pulse {
+      from { text-shadow: 0 0 20px #e0c97f88; }
+      to   { text-shadow: 0 0 50px #e0c97fff, 0 0 80px #e0c97f88; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: fall linear forwards;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Taquin</h1>
+
+<div class="info">
+  <div>Coups : <span id="moves">0</span></div>
+  <div>Temps : <span id="timer">0:00</span></div>
+</div>
+
+<div class="controls">
+  <select id="size-select">
+    <option value="3">3 × 3</option>
+    <option value="4" selected>4 × 4</option>
+    <option value="5">5 × 5</option>
+  </select>
+  <button id="btn-new">Nouvelle partie</button>
+</div>
+
+<div id="board"></div>
+
+<div id="win-overlay">
+  <h2>Bravo !</h2>
+  <p id="win-stats"></p>
+  <button id="btn-win-new">Rejouer</button>
+</div>
+
+<script>
+  const board      = document.getElementById('board');
+  const movesEl    = document.getElementById('moves');
+  const timerEl    = document.getElementById('timer');
+  const overlay    = document.getElementById('win-overlay');
+  const winStats   = document.getElementById('win-stats');
+  const sizeSelect = document.getElementById('size-select');
+
+  const GAP  = 6;
+  let N, TILE_SIZE, tiles, empty, moves, timerInterval, elapsed, started;
+
+  function init() {
+    clearInterval(timerInterval);
+    N         = parseInt(sizeSelect.value);
+    TILE_SIZE = Math.floor(Math.min(480, window.innerWidth - 48) / N);
+    moves     = 0;
+    elapsed   = 0;
+    started   = false;
+    movesEl.textContent = '0';
+    timerEl.textContent = '0:00';
+
+    const boardSize = N * TILE_SIZE + (N - 1) * GAP;
+    board.style.width  = boardSize + 'px';
+    board.style.height = boardSize + 'px';
+
+    board.innerHTML = '';
+    tiles = [];
+
+    // Create ordered array then shuffle
+    const order = Array.from({ length: N * N }, (_, i) => i);
+    do { shuffle(order); } while (!isSolvable(order));
+
+    // Find empty index
+    empty = order.indexOf(0);
+
+    // Build tile elements
+    order.forEach((val, pos) => {
+      const el = document.createElement('div');
+      el.className = 'tile' + (val === 0 ? ' empty' : '');
+      el.textContent = val === 0 ? '' : val;
+      el.style.fontSize = Math.floor(TILE_SIZE * 0.38) + 'px';
+      el.style.width  = TILE_SIZE - GAP + 'px';
+      el.style.height = TILE_SIZE - GAP + 'px';
+      setPos(el, pos);
+      if (val !== 0) el.addEventListener('click', () => clickTile(pos));
+      board.appendChild(el);
+      tiles.push({ el, val, pos });
+    });
+  }
+
+  function setPos(el, pos) {
+    const row = Math.floor(pos / N);
+    const col = pos % N;
+    el.style.top  = (row * (TILE_SIZE + GAP) + GAP / 2) + 'px';
+    el.style.left = (col * (TILE_SIZE + GAP) + GAP / 2) + 'px';
+  }
+
+  function clickTile(clickedPos) {
+    // Find the tile object at clickedPos
+    const tile = tiles.find(t => t.pos === clickedPos);
+    if (!tile || tile.val === 0) return;
+    if (!canMove(clickedPos)) return;
+
+    if (!started) {
+      started = true;
+      timerInterval = setInterval(() => {
+        elapsed++;
+        const m = Math.floor(elapsed / 60);
+        const s = elapsed % 60;
+        timerEl.textContent = m + ':' + String(s).padStart(2, '0');
+      }, 1000);
+    }
+
+    // Swap tile with empty
+    const emptyTile = tiles.find(t => t.val === 0);
+    const oldEmptyPos = emptyTile.pos;
+
+    emptyTile.pos = tile.pos;
+    tile.pos      = oldEmptyPos;
+    empty         = tile.pos;
+
+    setPos(tile.el,      tile.pos);
+    setPos(emptyTile.el, emptyTile.pos);
+
+    // Re-bind click
+    tile.el.onclick = () => clickTile(tile.pos);
+
+    moves++;
+    movesEl.textContent = moves;
+
+    if (checkWin()) onWin();
+  }
+
+  function canMove(pos) {
+    const row = Math.floor(pos / N);
+    const col = pos % N;
+    const eRow = Math.floor(empty / N);
+    const eCol = empty % N;
+    return (row === eRow && Math.abs(col - eCol) === 1) ||
+           (col === eCol && Math.abs(row - eRow) === 1);
+  }
+
+  function checkWin() {
+    return tiles.every(t => t.val === 0 || t.pos === t.val - 1);
+  }
+
+  function onWin() {
+    clearInterval(timerInterval);
+    const m = Math.floor(elapsed / 60);
+    const s = elapsed % 60;
+    winStats.textContent = `${moves} coups en ${m}:${String(s).padStart(2,'0')}`;
+    overlay.classList.add('show');
+    spawnConfetti();
+  }
+
+  // Fisher-Yates shuffle
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  // Solvability check for N-puzzle
+  function isSolvable(order) {
+    let inv = 0;
+    const flat = order.filter(v => v !== 0);
+    for (let i = 0; i < flat.length; i++)
+      for (let j = i + 1; j < flat.length; j++)
+        if (flat[i] > flat[j]) inv++;
+
+    if (N % 2 === 1) return inv % 2 === 0;
+
+    const emptyRow = Math.floor(order.indexOf(0) / N);
+    const rowFromBottom = N - emptyRow;
+    return (rowFromBottom % 2 === 0) ? inv % 2 === 1 : inv % 2 === 0;
+  }
+
+  function spawnConfetti() {
+    const colors = ['#e0c97f','#ff6b6b','#4ecdc4','#a8e6cf','#ffd93d','#c77dff'];
+    for (let i = 0; i < 80; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top  = '-20px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      el.style.animationDelay   = (Math.random() * 1) + 's';
+      document.body.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
+    }
+  }
+
+  document.getElementById('btn-new').addEventListener('click', () => {
+    overlay.classList.remove('show');
+    init();
+  });
+
+  document.getElementById('btn-win-new').addEventListener('click', () => {
+    overlay.classList.remove('show');
+    init();
+  });
+
+  sizeSelect.addEventListener('change', () => {
+    overlay.classList.remove('show');
+    init();
+  });
+
+  window.addEventListener('resize', init);
+
+  init();
+</script>
+</body>
+</html>
