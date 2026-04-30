@@ -236,9 +236,10 @@
       el.style.width  = TILE_SIZE - GAP + 'px';
       el.style.height = TILE_SIZE - GAP + 'px';
       setPos(el, pos);
-      if (val !== 0) el.addEventListener('click', () => clickTile(pos));
+      const tileObj = { el, val, pos };
+      if (val !== 0) el.onclick = () => clickTile(tileObj);
       board.appendChild(el);
-      tiles.push({ el, val, pos });
+      tiles.push(tileObj);
     });
   }
 
@@ -249,11 +250,8 @@
     el.style.left = (col * (TILE_SIZE + GAP) + GAP / 2) + 'px';
   }
 
-  function clickTile(clickedPos) {
-    // Find the tile object at clickedPos
-    const tile = tiles.find(t => t.pos === clickedPos);
-    if (!tile || tile.val === 0) return;
-    if (!canMove(clickedPos)) return;
+  function clickTile(tile) {
+    if (!canMove(tile.pos)) return;
 
     if (!started) {
       started = true;
@@ -265,19 +263,15 @@
       }, 1000);
     }
 
-    // Swap tile with empty
     const emptyTile = tiles.find(t => t.val === 0);
-    const oldEmptyPos = emptyTile.pos;
+    const pTile = tile.pos;
 
-    emptyTile.pos = tile.pos;
-    tile.pos      = oldEmptyPos;
-    empty         = tile.pos;
+    tile.pos      = emptyTile.pos;
+    emptyTile.pos = pTile;
+    empty         = pTile;
 
     setPos(tile.el,      tile.pos);
     setPos(emptyTile.el, emptyTile.pos);
-
-    // Re-bind click
-    tile.el.onclick = () => clickTile(tile.pos);
 
     moves++;
     movesEl.textContent = moves;
